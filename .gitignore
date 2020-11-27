@@ -24,3 +24,4 @@ hs_err_pid*
 /continent-info-service/target/
 /continent-info-system.iml
 /.idea
+/continent-info-service/continent-info-service.iml
