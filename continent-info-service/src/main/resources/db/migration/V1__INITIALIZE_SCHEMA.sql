@@ -1,13 +1,14 @@
-CREATE DATABASE nation;
+--public.hibernate_sequence definition
+CREATE SEQUENCE IF NOT EXISTS public.hibernate_sequence;
 
--- public.continents definition
+--public.continents definition
 CREATE TABLE IF NOT EXISTS public.continents (
 	continent_id bigint NOT NULL,
 	"name" varchar(255) NOT NULL,
 	CONSTRAINT continents_pk PRIMARY KEY (continent_id)
 );
 
--- public.regions definition
+--public.regions definition
 CREATE TABLE IF NOT EXISTS public.regions (
   region_id bigint NOT NULL,
   "name" varchar(100) NOT NULL,

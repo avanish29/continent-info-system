@@ -16,4 +16,5 @@ public class CountryDTO implements Serializable {
     private String alpha2Code;
     private String alpha3Code;
     private Set<CountryLanguageDTO> languages;
+    private Set<CountryStatsDTO> statistics;
 }

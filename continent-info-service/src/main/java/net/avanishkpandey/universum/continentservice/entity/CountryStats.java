@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -19,7 +18,7 @@ public class CountryStats implements Serializable {
     @EmbeddedId
     private CountryStatsId pk = new CountryStatsId();
 
-    private BigInteger population;
+    private Long population;
 
     private BigDecimal gdp;
 
@@ -31,10 +30,7 @@ public class CountryStats implements Serializable {
 
         CountryStats that = (CountryStats) o;
 
-        if (getPk() != null ? !getPk().equals(that.getPk()) : that.getPk() != null)
-            return false;
-
-        return true;
+        return getPk() != null ? getPk().equals(that.getPk()) : that.getPk() == null;
     }
 
     public int hashCode() {

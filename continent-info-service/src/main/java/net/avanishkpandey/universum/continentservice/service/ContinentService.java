@@ -1,13 +1,7 @@
 package net.avanishkpandey.universum.continentservice.service;
 
-import net.avanishkpandey.universum.continentservice.dto.ContinentDTO;
-import net.avanishkpandey.universum.continentservice.dto.CountryDTO;
-import net.avanishkpandey.universum.continentservice.dto.CountryLanguageDTO;
-import net.avanishkpandey.universum.continentservice.dto.RegionDTO;
-import net.avanishkpandey.universum.continentservice.entity.Continent;
-import net.avanishkpandey.universum.continentservice.entity.Country;
-import net.avanishkpandey.universum.continentservice.entity.CountryLanguage;
-import net.avanishkpandey.universum.continentservice.entity.Region;
+import net.avanishkpandey.universum.continentservice.dto.*;
+import net.avanishkpandey.universum.continentservice.entity.*;
 import net.avanishkpandey.universum.continentservice.repository.ContinentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,9 +57,15 @@ public class ContinentService {
         countryDTO.setNationalDay(entity.getNationalDay());
         countryDTO.setAlpha2Code(entity.getAlpha2Code());
         countryDTO.setAlpha3Code(entity.getAlpha3Code());
+
         Set<CountryLanguage> languages = entity.getCountryLanguages();
         countryDTO.setLanguages(Optional.ofNullable(languages).orElseGet(Collections::emptySet).stream()
                 .map(this::convertCountryLanguageEntityToDTO).collect(Collectors.toSet()));
+
+        Set<CountryStats> statistics = entity.getStatistics();
+        countryDTO.setStatistics(Optional.ofNullable(statistics).orElseGet(Collections::emptySet).stream()
+                .map(this::convertCountryStatsEntityToDTO).collect(Collectors.toSet()));
+
         return countryDTO;
     }
 
@@ -74,5 +74,13 @@ public class ContinentService {
         countryLanguageDTO.setLanguage(entity.getPk().getLanguage().getName());
         countryLanguageDTO.setOfficial(entity.getOfficial());
         return countryLanguageDTO;
+    }
+
+    protected CountryStatsDTO convertCountryStatsEntityToDTO(final CountryStats entity) {
+        CountryStatsDTO countryStatsDTO = new CountryStatsDTO();
+        countryStatsDTO.setYear(entity.getPk().getYear());
+        countryStatsDTO.setPopulation(entity.getPopulation());
+        countryStatsDTO.setGdp(entity.getGdp());
+        return countryStatsDTO;
     }
 }

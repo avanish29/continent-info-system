@@ -44,4 +44,7 @@ public class Country {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.country", cascade = CascadeType.ALL)
     private Set<CountryLanguage> countryLanguages = new HashSet<>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.country", cascade = CascadeType.ALL)
+    private Set<CountryStats> statistics = new HashSet<>(0);
+
 }

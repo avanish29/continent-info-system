@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -24,11 +25,8 @@ public class CountryStatsId implements Serializable {
 
         CountryStatsId that = (CountryStatsId) o;
 
-        if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (year != null ? !year.equals(that.year) : that.year != null)
-            return false;
-
-        return true;
+        if (!Objects.equals(country, that.country)) return false;
+        return Objects.equals(year, that.year);
     }
 
     public int hashCode() {
