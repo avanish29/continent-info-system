@@ -1,46 +1,46 @@
 version: '3'
 volumes:
-  postgres-nation-data:
+  postgrescontinentdata:
 services:
-  postgres:
+  postgrescontinentdb:
     build: ./postgres
     network_mode: bridge
     # Give the container the name.
-    container_name: postgres-nation-db
+    container_name: postgrescontinentdb
     # Set a volume some that database is not lost after shutting down the container.
     volumes:
-      - postgres-nation-data:/var/lib/postgresql/data
+      - postgrescontinentdata:/var/lib/postgresql/data
     expose:
       - 5432
     ports:
       - 5432:5432
     environment:
-        POSTGRES_USER: root
-        POSTGRES_PASSWORD: root
-        POSTGRES_DB: postgres
-    #onrun:
-    #  psql -h=localhost -P=${POSTGRES_PASSWORD} -U=${POSTGRES_USER} -tc "SELECT 1 FROM pg_database WHERE datname = 'nation'" | grep -q 1 || psql -h=localhost -P=${POSTGRES_PASSWORD}-U=${POSTGRES_USER}c "CREATE DATABASE nation"
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=nation
     restart: unless-stopped
     # Service health check
     healthcheck:
-      test: pg_isready -U postgres
+      test: pg_isready -d nation -h postgrescontinentdb -p 5432 -U root
       interval: 1m
       timeout: 10s
       retries: 2
-  nationinfoapp:
+
+  continentinfoapp:
     build: ./continent-info-service
     network_mode: bridge
-    container_name: nationinfoapp
+    container_name: continentinfoapp
     expose:
       - 8082
     ports:
       - 8082:8080
     environment:
-      spring.datasource.url: jdbc:postgresql://postgres-nation-db/postgres
-      spring.datasource.username: root
-      spring.datasource.password: root
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgrescontinentdb:5432/nation
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
     restart: unless-stopped
     depends_on:
-      - postgres
+      - postgrescontinentdb
     links:
-      - postgres
+      - postgrescontinentdb
