@@ -1,4 +1,5 @@
 FROM openjdk:8-jdk-alpine
+RUN apk --no-cache add curl
 VOLUME /temp
 EXPOSE 8082
 RUN mkdir -p /app/

@@ -30,6 +30,8 @@ services:
     build: ./continent-info-service
     network_mode: bridge
     container_name: continentinfoapp
+    volumes:
+      - ${PWD}/log:/app/logs/
     expose:
       - 8082
     ports:
@@ -44,3 +46,8 @@ services:
       - postgrescontinentdb
     links:
       - postgrescontinentdb
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 2
