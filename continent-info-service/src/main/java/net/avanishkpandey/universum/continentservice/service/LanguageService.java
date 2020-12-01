@@ -18,14 +18,20 @@ public class LanguageService {
     private LanguageRepository languageRepository;
 
     public List<LanguageDTO> findAllLanguages() {
-        return Optional.ofNullable(languageRepository.findAll()).orElseGet(Collections::emptyList).stream()
-                .map(language -> new LanguageDTO(language.getId(), language.getName()))
+        return Optional.of(languageRepository.findAll()).orElseGet(Collections::emptyList).stream()
+                .map(language -> LanguageDTO.builder().id(language.getId()).language(language.getName()).build())
                 .collect(Collectors.toList());
     }
 
     public LanguageDTO findLanguageByID(final Long languageId) {
         return languageRepository.findById(languageId)
-                .map(language -> new LanguageDTO(language.getId(), language.getName()))
+                .map(language -> LanguageDTO.builder().id(language.getId()).language(language.getName()).build())
+                .orElseThrow(() -> new EntityNotFoundException("No language found."));
+    }
+
+    public LanguageDTO findLanguageByName(final String languageName) {
+        return languageRepository.findByNameIgnoreCase(languageName)
+                .map(language -> LanguageDTO.builder().id(language.getId()).language(language.getName()).build())
                 .orElseThrow(() -> new EntityNotFoundException("No language found."));
     }
 }

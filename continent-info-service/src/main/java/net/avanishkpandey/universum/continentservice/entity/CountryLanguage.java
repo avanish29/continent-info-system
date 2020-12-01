@@ -1,6 +1,5 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,11 +22,6 @@ public class CountryLanguage implements Serializable {
     private Boolean official;
 
     @Transient
-    public Country getCountry() {
-        return pk.getCountry();
-    }
-
-    @Transient
     public Language getLanguage() {
         return pk.getLanguage();
     }
@@ -40,10 +34,7 @@ public class CountryLanguage implements Serializable {
 
         CountryLanguage that = (CountryLanguage) o;
 
-        if (getPk() != null ? !getPk().equals(that.getPk()) : that.getPk() != null)
-            return false;
-
-        return true;
+        return getPk() != null ? getPk().equals(that.getPk()) : that.getPk() == null;
     }
 
     public int hashCode() {

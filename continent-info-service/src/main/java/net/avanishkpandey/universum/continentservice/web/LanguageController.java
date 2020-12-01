@@ -22,13 +22,22 @@ public class LanguageController {
 
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<List<LanguageDTO>> findAll() {
-        return new ResponseEntity<List<LanguageDTO>>(languageService.findAllLanguages(), HttpStatus.OK);
+        return new ResponseEntity<>(languageService.findAllLanguages(), HttpStatus.OK);
     }
 
     @RequestMapping(method= RequestMethod.GET, path = "/{languageId}")
     public ResponseEntity<LanguageDTO> findById(@PathVariable Long languageId) {
         try {
-            return new ResponseEntity<LanguageDTO>(languageService.findLanguageByID(languageId), HttpStatus.OK);
+            return new ResponseEntity<>(languageService.findLanguageByID(languageId), HttpStatus.OK);
+        } catch(EntityNotFoundException enfEx) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Language Not Found !!", enfEx);
+        }
+    }
+
+    @RequestMapping(method= RequestMethod.GET, path = "/name/{languageName}")
+    public ResponseEntity<LanguageDTO> findByName(@PathVariable String languageName) {
+        try {
+            return new ResponseEntity<>(languageService.findLanguageByName(languageName), HttpStatus.OK);
         } catch(EntityNotFoundException enfEx) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Language Not Found !!", enfEx);
         }

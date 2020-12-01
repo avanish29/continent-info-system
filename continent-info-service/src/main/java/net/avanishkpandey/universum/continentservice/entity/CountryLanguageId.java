@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 @Getter
@@ -22,11 +23,8 @@ public class CountryLanguageId implements Serializable {
 
         CountryLanguageId that = (CountryLanguageId) o;
 
-        if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (language != null ? !language.equals(that.language) : that.language != null)
-            return false;
-
-        return true;
+        if (!Objects.equals(country, that.country)) return false;
+        return Objects.equals(language, that.language);
     }
 
     public int hashCode() {
