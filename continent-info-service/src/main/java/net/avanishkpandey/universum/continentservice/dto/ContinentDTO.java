@@ -1,5 +1,6 @@
 package net.avanishkpandey.universum.continentservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import net.avanishkpandey.universum.continentservice.entity.Continent;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ContinentDTO implements Serializable {
     private Long id;
     private String name;
@@ -20,8 +22,11 @@ public class ContinentDTO implements Serializable {
     public static ContinentDTO fromEntity(final Continent entity) {
         return ContinentDTO.builder()
                 .id(entity.getId()).name(entity.getName())
-                .regions(Optional.ofNullable(entity.getRegions()).orElseGet(Collections::emptyList).stream()
-                        .map(RegionDTO::fromEntity).collect(Collectors.toList()))
+                .regions(Optional.of(entity.getRegions())
+                        .orElseGet(Collections::emptyList)
+                        .stream()
+                        .map(RegionDTO::fromEntity)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;

@@ -37,7 +37,7 @@ public class Country {
     private String alpha3Code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="region_id")
+    @JoinColumn(name = "region_id")
     private Region region;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.country", cascade = CascadeType.ALL)

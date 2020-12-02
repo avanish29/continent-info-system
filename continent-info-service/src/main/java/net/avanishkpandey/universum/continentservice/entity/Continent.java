@@ -22,6 +22,6 @@ public class Continent implements Serializable {
     @NotNull(message = "Continent name is required.")
     private String name;
 
-    @OneToMany(mappedBy="continent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Region> regions = new ArrayList<>();
 }

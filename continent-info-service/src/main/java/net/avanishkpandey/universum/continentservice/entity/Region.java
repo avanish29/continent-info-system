@@ -27,9 +27,9 @@ public class Region implements Serializable {
     private BigDecimal regionArea;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="continent_id")
+    @JoinColumn(name = "continent_id")
     private Continent continent;
 
-    @OneToMany(mappedBy="region", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Country> countries = new ArrayList<>();
 }

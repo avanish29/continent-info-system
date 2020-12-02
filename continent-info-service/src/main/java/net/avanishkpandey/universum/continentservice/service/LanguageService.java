@@ -1,6 +1,7 @@
 package net.avanishkpandey.universum.continentservice.service;
 
 import net.avanishkpandey.universum.continentservice.dto.LanguageDTO;
+import net.avanishkpandey.universum.continentservice.repository.CountryLanguageRepository;
 import net.avanishkpandey.universum.continentservice.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class LanguageService {
 
     @Autowired
     private LanguageRepository languageRepository;
+
+    @Autowired
+    private CountryLanguageRepository countryLanguageRepository;
 
     public List<LanguageDTO> findAllLanguages() {
         return Optional.of(languageRepository.findAll()).orElseGet(Collections::emptyList).stream()
@@ -33,5 +37,14 @@ public class LanguageService {
         return languageRepository.findByNameIgnoreCase(languageName)
                 .map(language -> LanguageDTO.builder().id(language.getId()).language(language.getName()).build())
                 .orElseThrow(() -> new EntityNotFoundException("No language found."));
+    }
+
+    public List<LanguageDTO> findAllLanguagesByCountry(final Long countryId) {
+        return Optional.of(countryLanguageRepository.findByPkCountryId(countryId)).orElseGet(Collections::emptyList).stream()
+                .map(countryLanguage -> LanguageDTO.builder().id(countryLanguage.getPk().getLanguage().getId())
+                        .language(countryLanguage.getPk().getLanguage().getName())
+                        .countryName(countryLanguage.getPk().getCountry().getName())
+                        .official(countryLanguage.getOfficial()).build())
+                .collect(Collectors.toList());
     }
 }
