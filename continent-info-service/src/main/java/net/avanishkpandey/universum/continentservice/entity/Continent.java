@@ -1,19 +1,46 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+@Cacheable
+@Cache(region = "CONTINENT_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
 @Table(name = "continents")
+@NamedQueries({
+        @NamedQuery(name = Continent.FIND_ALL_CONTINENT, query = "SELECT c FROM Continent c")
+})
+@NamedEntityGraph(
+        name = "continent_regions_countries_language_statistics",
+        attributeNodes = {
+            @NamedAttributeNode(value = "regions", subgraph = "regionGraph")
+        },
+        subgraphs = {
+            @NamedSubgraph(name = "regionGraph", attributeNodes = {
+                    @NamedAttributeNode(value = "countries", subgraph = "countryGraph")
+            }),
+            @NamedSubgraph(name = "countryGraph", attributeNodes = {
+                    @NamedAttributeNode(value = "countryLanguages", subgraph = "countryLanguage"),
+                    @NamedAttributeNode(value = "statistics")
+            }),
+            @NamedSubgraph(name = "countryLanguage", attributeNodes = {
+                    @NamedAttributeNode(value = "language")
+            })
+        }
+    )
 public class Continent implements Serializable {
+    public static final String FIND_ALL_CONTINENT = "Continent.findAll";
+
     @Id
     @Column(name = "continent_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -23,5 +50,5 @@ public class Continent implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Region> regions = new ArrayList<>();
+    private Set<Region> regions;
 }

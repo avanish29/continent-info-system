@@ -2,6 +2,7 @@ package net.avanishkpandey.universum.continentservice.service;
 
 import net.avanishkpandey.universum.continentservice.dto.ContinentDTO;
 import net.avanishkpandey.universum.continentservice.repository.ContinentRepository;
+import net.avanishkpandey.universum.continentservice.util.GraphName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,13 @@ public class ContinentService {
     private ContinentRepository continentRepository;
 
     public List<ContinentDTO> findAllContinents() {
-        return Optional.of(continentRepository.findAll()).orElseGet(Collections::emptyList).stream()
+        return Optional.of(continentRepository.findByIdNotNull()).orElseGet(Collections::emptyList).stream()
                 .map(ContinentDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
     public ContinentDTO findContinentByID(final Long continentId) {
-        return continentRepository.findById(continentId)
+        return continentRepository.findByIdWithGraphName(continentId, GraphName.CONTINENT_WITH_REGIONS_AND_COUNTRIES)
                 .map(ContinentDTO::fromEntity)
                 .orElseThrow(() -> new EntityNotFoundException("No continent found."));
     }

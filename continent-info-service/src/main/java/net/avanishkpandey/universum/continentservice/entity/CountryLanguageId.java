@@ -3,8 +3,8 @@ package net.avanishkpandey.universum.continentservice.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,11 +12,17 @@ import java.util.Objects;
 @Getter
 @Setter
 public class CountryLanguageId implements Serializable {
-    @ManyToOne
+    /*@ManyToOne
     private Country country;
 
     @ManyToOne
-    private Language language;
+    private Language language;*/
+
+    @Column(name = "country_id")
+    private Long countryId;
+
+    @Column(name = "language_id")
+    private Long languageId;
 
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,14 +30,14 @@ public class CountryLanguageId implements Serializable {
 
         CountryLanguageId that = (CountryLanguageId) o;
 
-        if (!Objects.equals(country, that.country)) return false;
-        return Objects.equals(language, that.language);
+        if (!Objects.equals(countryId, that.countryId)) return false;
+        return Objects.equals(languageId, that.languageId);
     }
 
     public int hashCode() {
         int result;
-        result = (country != null ? country.hashCode() : 0);
-        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = (countryId != null ? countryId.hashCode() : 0);
+        result = 31 * result + (languageId != null ? languageId.hashCode() : 0);
         return result;
     }
 }

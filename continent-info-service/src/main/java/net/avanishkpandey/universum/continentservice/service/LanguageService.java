@@ -41,9 +41,9 @@ public class LanguageService {
 
     public List<LanguageDTO> findAllLanguagesByCountry(final Long countryId) {
         return Optional.of(countryLanguageRepository.findByPkCountryId(countryId)).orElseGet(Collections::emptyList).stream()
-                .map(countryLanguage -> LanguageDTO.builder().id(countryLanguage.getPk().getLanguage().getId())
-                        .language(countryLanguage.getPk().getLanguage().getName())
-                        .countryName(countryLanguage.getPk().getCountry().getName())
+                .map(countryLanguage -> LanguageDTO.builder().id(countryLanguage.getLanguage().getId())
+                        .language(countryLanguage.getLanguage().getName())
+                        .countryName(countryLanguage.getCountry().getName())
                         .official(countryLanguage.getOfficial()).build())
                 .collect(Collectors.toList());
     }

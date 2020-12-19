@@ -1,7 +1,9 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,9 +11,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+@Cacheable
+@org.hibernate.annotations.Cache(region = "REGION_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
 @Table(name = "regions")
 public class Region implements Serializable {
@@ -31,5 +37,5 @@ public class Region implements Serializable {
     private Continent continent;
 
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Country> countries = new ArrayList<>();
+    private Set<Country> countries;
 }

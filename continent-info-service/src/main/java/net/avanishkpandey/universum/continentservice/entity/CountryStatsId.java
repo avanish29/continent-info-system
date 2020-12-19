@@ -13,8 +13,11 @@ import java.util.Objects;
 @Getter
 @Setter
 public class CountryStatsId implements Serializable {
-    @ManyToOne
-    private Country country;
+    /*@ManyToOne
+    private Country country;*/
+
+    @Column(name = "country_id")
+    private Long countryId;
 
     @Column(nullable = false)
     private Integer year;
@@ -25,13 +28,13 @@ public class CountryStatsId implements Serializable {
 
         CountryStatsId that = (CountryStatsId) o;
 
-        if (!Objects.equals(country, that.country)) return false;
+        if (!Objects.equals(countryId, that.countryId)) return false;
         return Objects.equals(year, that.year);
     }
 
     public int hashCode() {
         int result;
-        result = (country != null ? country.hashCode() : 0);
+        result = (countryId != null ? countryId.hashCode() : 0);
         result = 31 * result + (year != null ? year.hashCode() : 0);
         return result;
     }

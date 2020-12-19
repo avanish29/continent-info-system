@@ -1,0 +1,8 @@
+version: '3'
+services:
+  management-center:
+    image: hazelcast/management-center:latest
+    environment:
+     - JAVA_OPTS=-Dhazelcast.mc.rest.enabled=true
+    ports:
+      - '8090:8080'

@@ -29,7 +29,7 @@ public class RegionDTO implements Serializable {
                 .area(entity.getRegionArea())
                 .continent(entity.getContinent().getName())
                 .countries(Optional.of(entity.getCountries())
-                        .orElseGet(Collections::emptyList)
+                        .orElseGet(Collections::emptySet)
                         .stream()
                         .map(CountryDTO::fromEntity)
                         .collect(Collectors.toList()))

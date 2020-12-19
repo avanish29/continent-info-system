@@ -23,7 +23,7 @@ public class ContinentDTO implements Serializable {
         return ContinentDTO.builder()
                 .id(entity.getId()).name(entity.getName())
                 .regions(Optional.of(entity.getRegions())
-                        .orElseGet(Collections::emptyList)
+                        .orElseGet(Collections::emptySet)
                         .stream()
                         .map(RegionDTO::fromEntity)
                         .collect(Collectors.toList()))
