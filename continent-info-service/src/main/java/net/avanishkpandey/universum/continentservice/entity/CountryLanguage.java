@@ -1,8 +1,8 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -10,9 +10,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-@Cacheable
-@org.hibernate.annotations.Cache(region = "COUNTRYLANGUAGE_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
+@Cache(region = "COUNTRYLANGUAGE_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
 @Table(name = "country_languages")
 /*@AssociationOverrides({

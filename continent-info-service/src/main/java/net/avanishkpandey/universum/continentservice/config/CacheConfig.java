@@ -15,6 +15,7 @@ public class CacheConfig {
         networkConfig.setPublicAddress("192.168.1.190").addOutboundPort(5702);
 
         Config config = new Config();
+        config.setInstanceName("CONTINENT_SERVICE_CACHE");
         config.setNetworkConfig(networkConfig);
         return config;
     }

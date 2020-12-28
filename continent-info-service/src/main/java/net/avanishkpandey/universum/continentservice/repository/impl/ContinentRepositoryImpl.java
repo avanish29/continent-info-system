@@ -3,6 +3,7 @@ package net.avanishkpandey.universum.continentservice.repository.impl;
 import net.avanishkpandey.universum.continentservice.entity.Continent;
 import net.avanishkpandey.universum.continentservice.repository.BaseGraphRepository;
 import net.avanishkpandey.universum.continentservice.util.GraphName;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,7 @@ public class ContinentRepositoryImpl implements BaseGraphRepository<Continent, L
     }
 
     @Override
+    @Cacheable(value = "CONTINENT_CACHE_REGION", key = "#identity")
     public Optional<Continent> findByIdWithGraphName(final Long identity, final GraphName graphName) {
         return Optional.ofNullable(entityManager.find(Continent.class, identity,
                 Collections.singletonMap(EntityGraph.EntityGraphType.FETCH.getKey(),

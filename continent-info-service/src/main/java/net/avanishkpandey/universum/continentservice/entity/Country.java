@@ -1,21 +1,19 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-@Cacheable
 @Cache(region = "COUNTRY_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
 @Table(name = "countries")
@@ -42,7 +40,7 @@ import java.util.Set;
                 })
         }
 )
-public class Country {
+public class Country implements Serializable {
     public static final String FIND_ALL_COUNTRY = "Country.findAll";
 
     @Id

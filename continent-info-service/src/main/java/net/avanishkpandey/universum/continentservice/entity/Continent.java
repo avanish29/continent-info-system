@@ -1,10 +1,10 @@
 package net.avanishkpandey.universum.continentservice.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -12,8 +12,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-@Cacheable
 @Cache(region = "CONTINENT_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
 @Table(name = "continents")
