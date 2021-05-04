@@ -9,13 +9,11 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import net.avanishkpandey.universum.continentservice.domain.dto.ContinentResponse;
 import net.avanishkpandey.universum.continentservice.domain.model.Continent;
 import net.avanishkpandey.universum.continentservice.web.controller.ContinentController;
-import org.mapstruct.Mapping;
 
 @Mapper
 public interface ContinentMapper {
     ContinentMapper INSTANCE = Mappers.getMapper(ContinentMapper.class);
 
-    @Mapping(target = "add", ignore = true)
 	ContinentResponse toModel(Continent continentEntity);
 
     @AfterMapping
