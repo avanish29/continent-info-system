@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
@@ -34,7 +33,7 @@ import lombok.Setter;
 @Cache(region = "COUNTRY_CACHE_REGION", usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
 @Table(name = "countries")
-@NamedQueries({ @NamedQuery(name = Country.FIND_ALL_COUNTRY, query = "SELECT c FROM Country c") })
+@NamedQuery(name = Country.FIND_ALL_COUNTRY, query = "SELECT c FROM Country c")
 @NamedEntityGraph(name = "country_language_statistics", attributeNodes = {
 		@NamedAttributeNode(value = "countryLanguages", subgraph = "countryLanguageGraph"),
 		@NamedAttributeNode(value = "region", subgraph = "countryRegionGraph"),

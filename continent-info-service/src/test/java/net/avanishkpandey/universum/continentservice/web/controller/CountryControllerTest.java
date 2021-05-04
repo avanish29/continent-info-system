@@ -24,13 +24,10 @@ import net.avanishkpandey.universum.continentservice.domain.dto.CountryResponse;
 import net.avanishkpandey.universum.continentservice.domain.dto.SearchPageRequest;
 import net.avanishkpandey.universum.continentservice.domain.dto.SearchPageResponse;
 import net.avanishkpandey.universum.continentservice.service.CountryService;
+import net.avanishkpandey.universum.continentservice.util.PathConstants;
 
 @WebMvcTest(CountryController.class)
 class CountryControllerTest {
-	private static final String COUNTRIES_API_PATH = "/countries";
-	private static final String COUNTRY_BY_ID_API_PATH = COUNTRIES_API_PATH + "/{countryId}";
-	private static final String LANGUAGES_BY_COUNTRY_API_PATH = COUNTRY_BY_ID_API_PATH + "/languages";
-
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -43,8 +40,7 @@ class CountryControllerTest {
 		Mockito.when(countryService.findAllCountries(new SearchPageRequest()))
 				.thenReturn(SearchPageResponse.of(countries.size(), 1, 0, countries));
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(COUNTRIES_API_PATH)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.COUNTRIES)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -72,8 +68,7 @@ class CountryControllerTest {
 									 .findFirst()
 									 .orElseThrow(() -> new EntityNotFoundException("No country found.")));
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(COUNTRY_BY_ID_API_PATH, countryToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.COUNTRY_BY_ID, countryToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -94,7 +89,7 @@ class CountryControllerTest {
 		Mockito.when(countryService.findById(countryToLookFor))
 				.thenThrow(new EntityNotFoundException("No country found."));
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get(COUNTRY_BY_ID_API_PATH, countryToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.COUNTRY_BY_ID, countryToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -112,7 +107,7 @@ class CountryControllerTest {
 				.sorted(Comparator.comparing(CountryLanguageResponse::getLanguage)).collect(Collectors.toList());
 		Mockito.when(countryService.findCountryLanguages(countryToLookFor)).thenReturn(languages);
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get(LANGUAGES_BY_COUNTRY_API_PATH, countryToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.LANGUAGES_BY_COUNTRY, countryToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())

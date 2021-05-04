@@ -18,7 +18,7 @@ import net.avanishkpandey.universum.continentservice.util.SearchCriteria;
 import net.avanishkpandey.universum.continentservice.util.SearchOperation;
 
 public final class SpecificationBuilder<T> {
-	private static final String OPERATION_SET = String.join("|", SearchOperation.SIMPLE_OPERATION_SET);
+	private static final String OPERATION_SET = String.join("|", SearchOperation.getOperators());
 	private static final Pattern REGEX_PATTERN = Pattern
 			.compile("(\\w+?)(" + OPERATION_SET + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
 

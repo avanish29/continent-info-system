@@ -20,12 +20,10 @@ import net.avanishkpandey.universum.continentservice.TestDataBuilder;
 import net.avanishkpandey.universum.continentservice.domain.dto.LanguageResponse;
 import net.avanishkpandey.universum.continentservice.domain.dto.SearchPageRequest;
 import net.avanishkpandey.universum.continentservice.service.LanguageService;
+import net.avanishkpandey.universum.continentservice.util.PathConstants;
 
 @WebMvcTest(LanguageController.class)
 class LanguageControllerTest {
-	private static final String LANGUAGES_API_PATH = "/languages";
-	private static final String LANGUAGE_BY_ID_API_PATH = LANGUAGES_API_PATH + "/{languageId}";
-
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -40,8 +38,7 @@ class LanguageControllerTest {
 		List<LanguageResponse> languages = TestDataBuilder.buildLanguages();
 		Mockito.when(languageService.findAllLanguages(new SearchPageRequest())).thenReturn(languages);
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(LANGUAGES_API_PATH)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.LANGUAGES)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -61,8 +58,7 @@ class LanguageControllerTest {
 						.findFirst()
 						.orElseThrow(() -> new EntityNotFoundException("No language found.")));
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(LANGUAGE_BY_ID_API_PATH, languageToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.LANGUAGE_BY_ID, languageToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -77,8 +73,7 @@ class LanguageControllerTest {
 		Mockito.when(languageService.findLanguageByID(languageToLookFor))
 				.thenThrow(new EntityNotFoundException("No language found."));
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(LANGUAGE_BY_ID_API_PATH, languageToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.LANGUAGE_BY_ID, languageToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())

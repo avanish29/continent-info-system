@@ -21,13 +21,10 @@ import net.avanishkpandey.universum.continentservice.domain.dto.ContinentRespons
 import net.avanishkpandey.universum.continentservice.domain.dto.SearchPageRequest;
 import net.avanishkpandey.universum.continentservice.domain.dto.SearchPageResponse;
 import net.avanishkpandey.universum.continentservice.service.ContinentService;
+import net.avanishkpandey.universum.continentservice.util.PathConstants;
 
 @WebMvcTest(ContinentController.class)
 class ContinentControllerTest {
-	private static final String CONTINENTS_API_PATH = "/continents";
-	private static final String CONTINENT_BY_ID_API_PATH = CONTINENTS_API_PATH + "/{continent_id}";
-	private static final String REGIONS_BY_CONTINENT_ID_API_PATH = CONTINENT_BY_ID_API_PATH + "/regions";
-
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -40,7 +37,7 @@ class ContinentControllerTest {
 		Mockito.when(continentService.findAllContinents(new SearchPageRequest()))
 				.thenReturn(SearchPageResponse.of(continents.size(), 1, 0, continents));
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get(CONTINENTS_API_PATH)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.CONTINENTS)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -65,7 +62,7 @@ class ContinentControllerTest {
 		Mockito.when(continentService.findContinentByID(continentToLookFor))
 				.thenReturn(findContinentById(continentToLookFor));
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get(CONTINENT_BY_ID_API_PATH, continentToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.CONTINENT_BY_ID, continentToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -84,7 +81,7 @@ class ContinentControllerTest {
 				.thenThrow(new EntityNotFoundException("No continent found."));
 
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(CONTINENT_BY_ID_API_PATH, continentToLookFor)
+				.perform(MockMvcRequestBuilders.get(PathConstants.CONTINENT_BY_ID, continentToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -101,7 +98,7 @@ class ContinentControllerTest {
 		Mockito.when(continentService.findRegionsByContinent(continentToLookFor))
 				.thenReturn(TestDataBuilder.buildRegions());
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get(REGIONS_BY_CONTINENT_ID_API_PATH, continentToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.REGIONS_BY_CONTINENT, continentToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -119,7 +116,7 @@ class ContinentControllerTest {
 		Mockito.when(continentService.findRegionsByContinent(continentToLookFor))
 				.thenThrow(new EntityNotFoundException("No continent found."));
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get(REGIONS_BY_CONTINENT_ID_API_PATH, continentToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.REGIONS_BY_CONTINENT, continentToLookFor)
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())

@@ -22,13 +22,10 @@ import net.avanishkpandey.universum.continentservice.domain.dto.CountryResponse;
 import net.avanishkpandey.universum.continentservice.domain.dto.RegionResponse;
 import net.avanishkpandey.universum.continentservice.service.CountryService;
 import net.avanishkpandey.universum.continentservice.service.RegionService;
+import net.avanishkpandey.universum.continentservice.util.PathConstants;
 
 @WebMvcTest(RegionController.class)
 class RegionControllerTest {
-	private static final String REGIONS_API_PATH = "/regions";
-	private static final String REGION_BY_ID_API_PATH = REGIONS_API_PATH + "/{regionId}";
-	private static final String COUNTRIES_BY_REGION_API_PATH = REGION_BY_ID_API_PATH + "/countries";
-
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -42,8 +39,7 @@ class RegionControllerTest {
 	void shouldReturnAllRegions() throws Exception {
 		Mockito.when(regionService.findAllRegions()).thenReturn(TestDataBuilder.buildRegions());
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(REGIONS_API_PATH)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.REGIONS)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -61,13 +57,12 @@ class RegionControllerTest {
 		final Long regionToLookFor = Long.valueOf(14);
 		List<RegionResponse> regions = TestDataBuilder.buildRegions();
 		Mockito.when(regionService.findById(regionToLookFor))
-				.thenReturn(regions.stream()
+						.thenReturn(regions.stream()
 						.filter(regionDTO -> regionDTO.getId().equals(regionToLookFor))
 						.findFirst()
 						.orElseThrow(() -> new EntityNotFoundException("No region found.")));
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(REGION_BY_ID_API_PATH, regionToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.REGION_BY_ID, regionToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())
@@ -84,8 +79,7 @@ class RegionControllerTest {
 		Mockito.when(regionService.findById(regionToLookFor))
 				.thenThrow(new EntityNotFoundException("No region found."));
 
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(REGION_BY_ID_API_PATH, regionToLookFor)
+		this.mockMvc.perform(MockMvcRequestBuilders.get(PathConstants.REGION_BY_ID, regionToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -107,7 +101,7 @@ class RegionControllerTest {
 		Mockito.when(countryService.findCountriesByRegionId(regionToLookFor)).thenReturn(countries);
 
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.get(COUNTRIES_BY_REGION_API_PATH, regionToLookFor)
+				.perform(MockMvcRequestBuilders.get(PathConstants.COUNTRIES_BY_REGION, regionToLookFor)
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk())

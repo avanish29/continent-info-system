@@ -25,7 +25,7 @@ public class SearchPageResponse<D> implements Serializable {
 	private long totalPages;
 	private long currentPage;
 	@ToString.Exclude
-	private List<D> contents;
+	private transient List<D> contents;
 
 	/**
 	 * Creates a new {@link SearchPageResponse} with page result and converter

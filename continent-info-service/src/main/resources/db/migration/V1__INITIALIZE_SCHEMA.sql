@@ -1,9 +1,6 @@
 --public.hibernate_sequence definition
 CREATE SEQUENCE IF NOT EXISTS public.hibernate_sequence;
 
---uuid-ossp extenssion
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 --public.continents definition
 CREATE TABLE IF NOT EXISTS public.continents (
 	continent_id bigint NOT NULL,
@@ -62,21 +59,3 @@ CREATE TABLE IF NOT EXISTS public.country_stats (
 	CONSTRAINT country_stats_pk PRIMARY KEY (country_id, year)
 );
 ALTER TABLE public.country_stats ADD CONSTRAINT country_stats_fk FOREIGN KEY (country_id) REFERENCES countries(country_id);
-
--- public.olympic_winners definition
-CREATE TABLE public.olympic_winners (
-	guid varchar(36) NOT NULL DEFAULT uuid_generate_v4()::text,
-	created_on timestamp(0) NOT NULL DEFAULT now(),
-	updated_on timestamp(0) NULL DEFAULT now(),
-	deleted bool NULL DEFAULT false,
-	full_name varchar(150) NULL,
-	age int4 NULL,
-	country varchar(100) NOT NULL,
-	"year" int4 NOT NULL,
-	stat_date date NOT NULL,
-	sport varchar(50) NOT NULL,
-	gold int4 NULL,
-	silver int4 NULL,
-	bronze int4 NULL,
-	CONSTRAINT olympic_winners_pk PRIMARY KEY (guid)
-);

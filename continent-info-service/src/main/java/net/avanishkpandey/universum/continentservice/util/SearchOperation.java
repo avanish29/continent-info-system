@@ -17,7 +17,7 @@ public enum SearchOperation {
     NOT_CONTAINS,
     BETWEEN;
 
-    public static final String[] SIMPLE_OPERATION_SET = { ":", "!", ">", "<", "~" };
+    private static final String[] SIMPLE_OPERATION_SET = { ":", "!", ">", "<", "~" };
 
     public static final String OR_PREDICATE_FLAG = "'";
 
@@ -47,5 +47,9 @@ public enum SearchOperation {
             default:
                 return null;
         }
+    }
+    
+    public static String[] getOperators() {
+    	return SIMPLE_OPERATION_SET;
     }
 }
