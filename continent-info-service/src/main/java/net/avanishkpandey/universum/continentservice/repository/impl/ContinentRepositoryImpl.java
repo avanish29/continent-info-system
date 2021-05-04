@@ -1,6 +1,6 @@
 package net.avanishkpandey.universum.continentservice.repository.impl;
 
-import net.avanishkpandey.universum.continentservice.entity.Continent;
+import net.avanishkpandey.universum.continentservice.domain.model.Continent;
 import net.avanishkpandey.universum.continentservice.repository.BaseGraphRepository;
 import net.avanishkpandey.universum.continentservice.util.GraphName;
 import org.springframework.cache.annotation.Cacheable;

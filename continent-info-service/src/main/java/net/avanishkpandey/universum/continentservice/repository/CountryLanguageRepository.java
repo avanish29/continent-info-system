@@ -1,7 +1,7 @@
 package net.avanishkpandey.universum.continentservice.repository;
 
-import net.avanishkpandey.universum.continentservice.entity.CountryLanguage;
-import net.avanishkpandey.universum.continentservice.entity.CountryLanguageId;
+import net.avanishkpandey.universum.continentservice.domain.model.CountryLanguage;
+import net.avanishkpandey.universum.continentservice.domain.model.CountryLanguageId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
